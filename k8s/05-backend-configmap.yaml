@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: backend-config
+  namespace: products
+data:
+  # Non-sensitive backend env goes here
+  PORT: "3000"
+  NODE_ENV: "production"

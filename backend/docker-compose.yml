@@ -1,0 +1,33 @@
+services:
+  mongo:
+    image: mongo:7
+    container_name: products-mongo
+    restart: unless-stopped
+    volumes:
+      - mongo-data:/data/db
+    ports:
+      - "27017:27017"
+
+  backend:
+    build: .
+    container_name: products-backend
+    restart: unless-stopped
+    environment:
+      - MONGO_URL=mongodb://mongo:27017/products
+      - PORT=3000
+    depends_on:
+      - mongo
+    ports:
+      - "3000:3000"
+
+  frontend:
+    build: ./frontend
+    container_name: products-frontend
+    restart: unless-stopped
+    depends_on:
+      - backend
+    ports:
+      - "8080:80"
+
+volumes:
+  mongo-data:
